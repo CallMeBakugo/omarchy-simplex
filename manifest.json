@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "bakugo.simplex",
+  "name": "SimpleX Chat",
+  "version": "1.0.0",
+  "author": "bakugo",
+  "license": "MIT",
+  "description": "One-click SimpleX Chat access: a bar chip that launches the app and toggles its window to a hidden Hyprland workspace, keeping it one click away and running in the background like a tray app.",
+  "kinds": ["bar-widget"],
+  "activation": "on-demand",
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "SimpleX Chat",
+    "description": "Bar chip for SimpleX Chat. Left click toggles the app window between the current view and a hidden special workspace (or launches it if closed); right click refreshes the running state. The chip glows green while the app runs in the background.",
+    "category": "Network",
+    "aliases": ["simplex", "simplex-chat"],
+    "allowMultiple": false,
+    "defaults": {
+      "appPath": "",
+      "windowClass": ""
+    },
+    "schema": [
+      { "key": "appPath", "type": "string", "label": "Path to the SimpleX desktop binary (default: ~/simplex)", "defaultValue": "" },
+      { "key": "windowClass", "type": "string", "label": "Hyprland window class of the app (default: chat-simplex-desktop-MainKt)", "defaultValue": "" }
+    ]
+  }
+}
