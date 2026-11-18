@@ -1,56 +1,35 @@
-# SimpleX Chat — Omarchy bar widget
+# SimpleX Chat for Omarchy
 
-A one-click SimpleX Chat chip for the [Omarchy](https://omarchy.org) bar
-(Quattro/Quickshell).
+Keep SimpleX Chat one click away on Wayland. The bar badge launches the desktop app, moves its window to a hidden Hyprland workspace, or brings it back to the workspace you're using. The green ring shows that the desktop window is running, even when hidden.
 
-The SimpleX desktop app has no system tray on Wayland. This chip *is* the
-tray:
-
-- **Left click** launches the app if it is closed, or toggles its window
-  between your current view and a hidden Hyprland special workspace
-  (`special:simplex`) — the window keeps running in the background, connected
-  and receiving messages, exactly like a tray app.
-- **Right click** (or `R` via IPC) refreshes the running state.
-- The chip glows **green** while the app runs in the background and stays
-  dim/red when it is closed.
-
-## Requirements
-
-- Hyprland 0.55+ (uses the `hl.dsp.*` Lua dispatcher API)
-- `hyprctl` and `jq` on `PATH`
-- The SimpleX desktop app binary, by default expected at `~/simplex`
+![SimpleX Chat badge with its green running indicator](preview.png)
 
 ## Install
 
-```
-omarchy plugin clone CallMeBakugo/omarchy-simplex
-omarchy bar put bakugo.simplex --section right
-```
+Requires Omarchy 4.x with Quickshell, Hyprland 0.55 or later, `hyprctl`, `jq`, `setsid`, and the [SimpleX Chat desktop app](https://simplex.chat/). The widget looks for `simplex-desktop` on your `PATH`, then falls back to `~/simplex`.
 
-## Settings
-
-| Setting | Default | Description |
-| --- | --- | --- |
-| `appPath` | `~/simplex` | Path to the SimpleX desktop binary |
-| `windowClass` | `chat-simplex-desktop-MainKt` | Hyprland window class of the app |
-
-## IPC
-
-```
-omarchy shell bakugo.simplex toggle   # same as clicking the chip
-omarchy shell bakugo.simplex refresh
+```sh
+omarchy plugin add https://github.com/CallMeBakugo/omarchy-simplex.git --enable
 ```
 
-## Notes
+For another installation path, point the widget at the executable:
 
-Privacy: the widget runs entirely locally. It reads window state through
-`hyprctl`, launches your local SimpleX binary, and stores no data. Nothing is
-sent anywhere.
+```sh
+omarchy bar set bakugo.simplex appPath /path/to/simplex
+```
 
-Hyprland 0.56.2 quirk: `hl.dsp.workspace.toggle_special` is a silent no-op
-through `hyprctl`, so the toggle only uses `window.move` and `focus`, which
-are verified working.
+If the package uses a different Hyprland window class, set `windowClass`. The default is `chat-simplex-desktop-MainKt`.
 
-## License
+## Use
 
-MIT — see [LICENSE](LICENSE).
+Left-click to launch, hide, or restore the window. Right-click to refresh its running state. Hidden windows stay on `special:simplex`, so SimpleX can continue receiving messages. The widget reads compositor window state and does not read messages.
+
+## Remove
+
+If SimpleX is hidden, click the badge once to bring the window back before removing the widget.
+
+```sh
+omarchy plugin remove bakugo.simplex --yes
+```
+
+[MIT license](LICENSE).
