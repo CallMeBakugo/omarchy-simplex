@@ -25,6 +25,7 @@ Panel {
     var p = String(root.setting("appPath", "")).trim()
     return p
   }
+  readonly property string appExecutable: String(root.setting("appExecutable", "")).trim()
   readonly property string windowClass: {
     var c = String(root.setting("windowClass", "")).trim()
     return c !== "" ? c : "chat-simplex-desktop-MainKt"
@@ -43,19 +44,8 @@ Panel {
   Process {
     id: poll
     running: false
-    command: ["hyprctl", "-j", "clients"]
-    stdout: StdioCollector {
-      waitForEnd: true
-      onStreamFinished: {
-        try {
-          const clients = JSON.parse(text)
-          root.up = clients.some(client =>
-            client.class === root.windowClass || client.initialClass === root.windowClass)
-        } catch (error) {
-          root.up = false
-        }
-      }
-    }
+    command: [root.toggleScript, "--status", root.appPath, root.windowClass, root.appExecutable]
+    onExited: function(exitCode) { root.up = exitCode === 0 }
   }
 
   Timer {
@@ -67,8 +57,8 @@ Panel {
   }
 
   function toggleApp() {
-    Quickshell.execDetached([root.toggleScript, root.appPath, root.windowClass])
-    // Optimistic flip; poll corrects within 5 s (or right-click).
+    Quickshell.execDetached([root.toggleScript, root.appPath, root.windowClass, root.appExecutable])
+    // Refresh from the same window matcher used by the toggle.
     Qt.callLater(function() { if (!poll.running) poll.running = true })
   }
 

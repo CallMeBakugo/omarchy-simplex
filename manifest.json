@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "bakugo.simplex",
   "name": "SimpleX Chat",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "bakugo",
   "license": "MIT",
   "description": "Launch, hide, and restore SimpleX Chat from the Omarchy bar.",
@@ -24,6 +24,7 @@
     "allowMultiple": false,
     "defaults": {
       "appPath": "",
+      "appExecutable": "",
       "windowClass": ""
     },
     "schema": [
@@ -31,6 +32,12 @@
         "key": "appPath",
         "type": "string",
         "label": "Path to the SimpleX desktop binary (default: ~/simplex)",
+        "defaultValue": ""
+      },
+      {
+        "key": "appExecutable",
+        "type": "string",
+        "label": "Native SimpleX executable (only needed for custom wrappers)",
         "defaultValue": ""
       },
       {

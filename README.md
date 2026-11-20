@@ -6,7 +6,7 @@ Keep SimpleX Chat one click away on Wayland. The bar badge launches the desktop 
 
 ## Install
 
-Requires Omarchy 4.x with Quickshell, Hyprland 0.55 or later, `hyprctl`, `jq`, `setsid`, and the [SimpleX Chat desktop app](https://simplex.chat/). The widget looks for `simplex-desktop` on your `PATH`, then falls back to `~/simplex`.
+Requires Omarchy 4.x with Quickshell, Hyprland 0.55 or later, `hyprctl`, `jq`, `setsid`, `timeout`, and the [SimpleX Chat desktop app](https://simplex.chat/). The widget looks for `simplex-desktop` on your `PATH`, then falls back to `~/simplex`.
 
 ```sh
 omarchy plugin add https://github.com/CallMeBakugo/omarchy-simplex.git --enable
@@ -17,6 +17,14 @@ For another installation path, point the widget at the executable:
 ```sh
 omarchy bar set bakugo.simplex appPath /path/to/simplex
 ```
+
+If `appPath` is a custom wrapper script, set `appExecutable` to the native SimpleX binary it launches. The standard Arch wrapper is handled automatically.
+
+```sh
+omarchy bar set bakugo.simplex appExecutable /path/to/native/simplex
+```
+
+The badge and toggle both require the window class to match and the compositor-reported process to be running that executable. If the process cannot be verified, the widget leaves the window alone.
 
 If the package uses a different Hyprland window class, set `windowClass`. The default is `chat-simplex-desktop-MainKt`.
 
